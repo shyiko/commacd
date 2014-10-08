@@ -6,6 +6,6 @@ before_install:
 
 install:
   - cabal update && cabal install shellcheck
-  - sh -c "`curl -L https://raw.github.com/rylnd/shpec/master/install.sh`"
+  - sudo sh -c "`curl -L https://raw.github.com/rylnd/shpec/master/install.sh`"
 
 script: make
