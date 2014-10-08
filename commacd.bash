@@ -52,7 +52,7 @@ _commacd_forward_by_prefix() {
 
 # jump forward (`,`)
 _commacd_forward() {
-  if [[ -z "$*" ]]; then return -1; fi
+  if [[ -z "$*" ]]; then return 1; fi
   local dir=($(_commacd_forward_by_prefix "$@"))
   if [[ "$COMMACD_NOTTY" == "on" ]]; then
     echo -n "${dir[@]}"
@@ -110,7 +110,7 @@ _commacd_backward() {
     0) dir=$(_commacd_backward_vcs_root);;
     1) dir=$(_commacd_backward_by_prefix "$@");;
     2) dir=$(_commacd_backward_substitute "$@");;
-    *) return -1
+    *) return 1
   esac
   if [[ "$COMMACD_NOTTY" == "on" ]]; then
     echo -n "${dir}"
@@ -142,7 +142,7 @@ _commacd_backward_forward_by_prefix() {
 
 # combine backtracking with `, $1` (`,,, $1`)
 _commacd_backward_forward() {
-  if [[ -z "$*" ]]; then return -1; fi
+  if [[ -z "$*" ]]; then return 1; fi
   local dir=($(_commacd_backward_forward_by_prefix "$@"))
   if [[ "$COMMACD_NOTTY" == "on" ]]; then
     echo -n "${dir[@]}"
