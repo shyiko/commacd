@@ -1,7 +1,10 @@
-language: haskell
+language: bash
 
-before_script:
-  - cabal install shellcheck
+before_install:
+  - sudo apt-get update && sudo apt-get install cabal-install
+
+install:
+  - cabal update && cabal install shellcheck
   - sh -c "`curl -L https://raw.github.com/rylnd/shpec/master/install.sh`"
 
 script: make
