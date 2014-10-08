@@ -1,11 +1,11 @@
-# commacd
+# commacd [![Build Status](https://travis-ci.org/shyiko/commacd.svg)](https://travis-ci.org/shyiko/commacd)
 
 A nifty `cd` alternative for the lazy ones (Bash 3+).
 
 ## Installation
 
 ```sh
-curl https://github.com/shyiko/commacd/blob/master/commacd.bash -o ~/.commacd.bash && \
+curl https://raw.githubusercontent.com/shyiko/commacd/master/commacd.bash -o ~/.commacd.bash && \
   echo "source ~/.commacd.bash" >> ~/.bashrc
 ```
 
@@ -53,7 +53,7 @@ curl https://github.com/shyiko/commacd/blob/master/commacd.bash -o ~/.commacd.ba
   => cd ~/github/mysql-binlog-connector-java
 ```
 
-As a bonus, all three aliases support `<Tab>` completion (try `, ~/des<Tab>`) and can combined with other tools (e.g. ``ls `, ~/des` ``). 
+As a bonus, all three aliases support `<Tab>` completion (try `, ~/des<Tab>`) and can be combined with other tools (e.g. ``ls `, ~/des` ``). 
 
 ## Development
 
