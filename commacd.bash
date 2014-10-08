@@ -1,4 +1,4 @@
-# commacd - a nifty `cd` alternative for the lazy ones.
+# commacd - a faster way to move around (Bash 3+).
 # https://github.com/shyiko/commacd
 #
 # ENV variables that can be used to control commacd:

@@ -1,6 +1,6 @@
 # commacd [![Build Status](https://travis-ci.org/shyiko/commacd.svg)](https://travis-ci.org/shyiko/commacd)
 
-A nifty `cd` alternative for the lazy ones (Bash 3+).
+A faster way to move around (Bash 3+).
 
 ## Installation
 
