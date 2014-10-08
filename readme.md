@@ -40,7 +40,7 @@ curl https://github.com/shyiko/commacd/blob/master/commacd.bash -o ~/.commacd.ba
 ~/github/lorem/src/public$ ,,
   => cd ~/github/lorem
 
-# cd into to the first parent directory named g*
+# cd into to the first (closest) parent directory named g*
 ~/github/vimium/src/public$ ,, g
   => cd ~/github
 
