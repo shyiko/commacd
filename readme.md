@@ -11,7 +11,7 @@ curl https://raw.githubusercontent.com/shyiko/commacd/master/commacd.bash -o ~/.
 
 ## Usage
 
-`commacd` introduces three aliases: `,`, `,,` and `,,,`:
+`commacd` introduces three aliases: `,` (for jumping forward), `,,` (backward) and `,,,` (backward+forward):
 
 ```sh
 ~$ , des
@@ -53,7 +53,7 @@ curl https://raw.githubusercontent.com/shyiko/commacd/master/commacd.bash -o ~/.
   => cd ~/github/mysql-binlog-connector-java
 ```
 
-As a bonus, all three aliases support `<Tab>` completion (try `, ~/des<Tab>`) and can be combined with other tools (e.g. ``ls `, ~/des` ``). 
+As a bonus, all three aliases support `<Tab>` completion (try `, /u/lo<Tab>`) and can be combined with other tools (e.g. ``ls `, /u/lo` ``). 
 
 ## Development
 
