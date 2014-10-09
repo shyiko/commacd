@@ -14,7 +14,7 @@ shopt -s nocaseglob
 
 _commacd_split() { echo "$1" | sed 's|/|\n/|g' | sed '/^\s*$/d'; }
 _commacd_join() { local IFS="$1"; shift; echo "$*"; }
-_commacd_expand() ( shopt -s extglob nullglob; local ex=($1); echo -n "${ex[@]}"; )
+_commacd_expand() ( shopt -s extglob nullglob; local ex=($1); printf "%s\n" "${ex[@]}"; )
 
 _command_cd() {
   local dir=$1
@@ -41,21 +41,22 @@ _commacd_choose_match() {
 }
 
 _commacd_forward_by_prefix() {
-  local path="${*%/}/"
+  local path="${*%/}/" IFS=$'\n'
   # shellcheck disable=SC2046
   local matches=($(_commacd_expand "$(_commacd_join \* $(_commacd_split "$path"))"))
   case ${#matches[@]} in
     0) echo -n "$PWD";;
-    *) echo -n "${matches[@]}"
+    *) printf "%s\n" "${matches[@]}"
   esac
 }
 
 # jump forward (`,`)
 _commacd_forward() {
   if [[ -z "$*" ]]; then return 1; fi
+  local IFS=$'\n'
   local dir=($(_commacd_forward_by_prefix "$@"))
   if [[ "$COMMACD_NOTTY" == "on" ]]; then
-    echo -n "${dir[@]}"
+    printf "%s\n" "${dir[@]}"
     return
   fi
   if [[ ${#dir[@]} -gt 1 ]]; then
@@ -79,7 +80,7 @@ _commacd_backward_vcs_root() {
 
 # search backward for the directory whose name begins with $1 (`,, $1`)
 _commacd_backward_by_prefix() {
-  local prev_dir dir="${PWD%/*}" matches match
+  local prev_dir dir="${PWD%/*}" matches match IFS=$'\n'
   while [[ -n "$dir" ]]; do
     prev_dir="$dir"
     dir="${dir%/*}"
@@ -120,11 +121,11 @@ _commacd_backward() {
 }
 
 _commacd_backward_forward_by_prefix() {
-  local dir="$PWD" path="${*%/}/" matches match
+  local dir="$PWD" path="${*%/}/" matches match IFS=$'\n'
   if [[ "${path:0:1}" == "/" ]]; then
     # assume that we've been brought here by the completion
     dir=(${path%/}*)
-    echo -n "${dir[@]}"
+    printf "%s\n" "${dir[@]}"
     return
   fi
   while [[ -n "$dir" ]]; do
@@ -133,7 +134,7 @@ _commacd_backward_forward_by_prefix() {
     matches=($(_commacd_expand "$dir/$(_commacd_join \* $(_commacd_split "$path"))"))
     case ${#matches[@]} in
       0) ;;
-      *) echo -n "${matches[@]}"
+      *) printf "%s\n" "${matches[@]}"
          return;;
     esac
   done
@@ -143,9 +144,10 @@ _commacd_backward_forward_by_prefix() {
 # combine backtracking with `, $1` (`,,, $1`)
 _commacd_backward_forward() {
   if [[ -z "$*" ]]; then return 1; fi
+  local IFS=$'\n'
   local dir=($(_commacd_backward_forward_by_prefix "$@"))
   if [[ "$COMMACD_NOTTY" == "on" ]]; then
-    echo -n "${dir[@]}"
+    printf "%s\n" "${dir[@]}"
     return
   fi
   if [[ ${#dir[@]} -gt 1 ]]; then
@@ -155,16 +157,20 @@ _commacd_backward_forward() {
 }
 
 _commacd_completion() {
-  local pattern=${COMP_WORDS[COMP_CWORD]}
+  local pattern=${COMP_WORDS[COMP_CWORD]} IFS=$'\n'
   # shellcheck disable=SC2088
   if [[ "${pattern:0:2}" == "~/" ]]; then
     # shellcheck disable=SC2116
     pattern=$(echo ~/"${pattern:2}")
   fi
   local completion=($(COMMACD_NOTTY=on $1 "$pattern"))
-  if [[ "$completion" == "$PWD" ]]; then
+  if [[ "$completion" == "$PWD" || "${completion// /\\ }" == "$pattern" ]]; then
     return
   fi
+  # remove trailing / (if any)
+  for i in "${!completion[@]}"; do
+    completion[$i]="${completion[$i]%/}";
+  done
   COMPREPLY=($(compgen -W "$(printf "%s\n" "${completion[@]}")" -- ''))
 }
 
@@ -184,6 +190,6 @@ alias ,=_commacd_forward
 alias ,,=_commacd_backward
 alias ,,,=_commacd_backward_forward
 
-complete -F _commacd_forward_completion ,
-complete -F _commacd_backward_completion ,,
-complete -F _commacd_backward_forward_completion ,,,
+complete -o filenames -F _commacd_forward_completion ,
+complete -o filenames -F _commacd_backward_completion ,,
+complete -o filenames -F _commacd_backward_forward_completion ,,,

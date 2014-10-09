@@ -4,6 +4,7 @@ shopt -s expand_aliases
 ROOT=/tmp/commacd.shpec
 rm -rf $ROOT
 mkdir -p $ROOT/projects/{jekyll,ghost,mysql-binlog-connector-java/src/main/java,mappify/{.git,src/test}}
+mkdir -p $ROOT/space\ hell/{a\ a,b\ b,a\ b}
 
 COMMACD_CD=cd # supress pwd
 
@@ -37,6 +38,10 @@ describe 'commacd'
       v=$(, p)
       COMMACD_CD=$commacd_to_restore
       assert equal "$v" "$ROOT/projects"
+    it 'does not break on spaces'
+      cd $ROOT
+      , s/b
+      assert equal "$PWD" "$ROOT/space hell/b b"
   end_describe
 
   describe ',,'
@@ -68,6 +73,10 @@ describe 'commacd'
       v=$(,, pro)
       COMMACD_CD=$commacd_to_restore
       assert equal "$v" "$ROOT/projects"
+    it 'does not break on spaces'
+      cd "$ROOT/space hell/b b"
+      ,, s
+      assert equal "$PWD" "$ROOT/space hell"
   end_describe
 
   describe ',,,'
@@ -98,6 +107,10 @@ describe 'commacd'
       v=$(,,, mysql)
       COMMACD_CD=$commacd_to_restore
       assert equal "$v" "$ROOT/projects/mysql-binlog-connector-java"
+    it 'does not break on spaces'
+      cd "$ROOT/space hell/a a"
+      ,,, b
+      assert equal "$PWD" "$ROOT/space hell/b b"
   end_describe
 
 end_describe
