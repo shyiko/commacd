@@ -36,7 +36,7 @@ curl https://raw.githubusercontent.com/shyiko/commacd/master/commacd.bash -o ~/.
 ~/github$ , ~/*esk
   => cd ~/Desktop
 
-# go all the way up to the project root directory (in this case, the one that has .git in it)
+# go all the way up to the project root (in this case, the one that has .git in it)
 ~/github/lorem/src/public$ ,,
   => cd ~/github/lorem
 
@@ -48,12 +48,12 @@ curl https://raw.githubusercontent.com/shyiko/commacd/master/commacd.bash -o ~/.
 ~/github/jekyll/test$ ,, jekyll ghost
   => cd ~/github/ghost/test
 
-# jump to some other project in ~/github
+# jump to some other project (in this case, located in ~/github)
 ~/github/rook/src/public$ ,,, m*binlog
   => cd ~/github/mysql-binlog-connector-java
 ```
 
-As a bonus, all three aliases support `<Tab>` completion (try `, /u/lo<Tab>`) and can be combined with other tools (e.g. ``ls `, /u/lo` ``). 
+As a bonus, all three aliases support `<Tab>` expansion (try `, /u/lo<Tab>`) and can be combined with other tools (e.g. ``ls `, /u/lo` ``). 
 
 ## Development
 
