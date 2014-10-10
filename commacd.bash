@@ -12,7 +12,7 @@
 # turn on case-insensitive search by default
 shopt -s nocaseglob
 
-_commacd_split() { echo "$1" | sed 's|/|\n/|g' | sed '/^\s*$/d'; }
+_commacd_split() { echo "$1" | sed $'s|/|\\\n/|g' | sed '/^[[:space:]]*$/d'; }
 _commacd_join() { local IFS="$1"; shift; echo "$*"; }
 _commacd_expand() ( shopt -s extglob nullglob; local ex=($1); printf "%s\n" "${ex[@]}"; )
 
