@@ -2,6 +2,8 @@
 
 A faster way to move around (Bash 3+).
 
+> While going through "Usage" section please keep in mind that `commacd` is NOT an [autojump](https://github.com/joelthelion/autojump)/[z](https://github.com/rupa/z)/[fasd](https://github.com/clvv/fasd) alternative nor they are mutualy exclusive. It doesn't track history, write any logs, nothing like that. It really is just an improved `cd`.
+
 ## Installation
 
 ```sh
