@@ -57,6 +57,8 @@ curl https://raw.githubusercontent.com/shyiko/commacd/master/commacd.bash -o ~/.
 
 As a bonus, all three aliases support `<Tab>` expansion (try `, /u/lo<Tab>`) and can be combined with other tools (e.g. ``ls `, /u/lo` ``). 
 
+For more information, please refer to http://shyiko.com/2014/10/10/commacd/.
+
 ## Development
 
 ```sh
