@@ -11,6 +11,8 @@ curl https://raw.githubusercontent.com/shyiko/commacd/master/commacd.bash -o ~/.
   echo "source ~/.commacd.bash" >> ~/.bashrc
 ```
 
+> On OS X you'll need to make sure ~/.bashrc is sourced from ~/.bash_profile (http://ss64.com/osx/syntax-bashrc.html). 
+
 ## Usage
 
 `commacd` introduces three aliases: `,` (for jumping forward), `,,` (backward) and `,,,` (backward+forward):
