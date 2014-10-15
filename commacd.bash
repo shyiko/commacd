@@ -29,12 +29,12 @@ _command_cd() {
 _commacd_choose_match() {
   local matches=("$@")
   for i in "${!matches[@]}"; do
-    printf "%s\t%s\n" "$i" "${matches[$i]}" >&2
+    printf "%s\t%s\n" "$((i+1))" "${matches[$i]}" >&2
   done
   local selection;
   read -e -p ': ' selection >&2
   if [[ -n "$selection" ]]; then
-    echo -n "${matches[$selection]}"
+    echo -n "${matches[$((selection-1))]}"
   else
     echo -n "$PWD"
   fi
