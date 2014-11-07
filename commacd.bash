@@ -4,8 +4,10 @@
 # ENV variables that can be used to control commacd:
 #   COMMACD_CD - function to change the directory (by default commacd uses builtin cd and pwd)
 #   COMMACD_NOTTY - set it to "on" when you want to suppress user input (= print multiple matches and exit)
+#   COMMACD_NOFUZZYFALLBACK - set it to "on" if don't want commacd to use "fuzzy matching" as a fallback for
+#     "no matches by prefix" (introduced in 0.2.0)
 #
-# @version 0.1.0
+# @version 0.2.0
 # @author Stanley Shyiko <stanley.shyiko@gmail.com>
 # @license MIT
 
@@ -40,10 +42,30 @@ _commacd_choose_match() {
   fi
 }
 
-_commacd_forward_by_prefix() {
+_commacd_prefix_glob() (
+  set -f
   local path="${*%/}/" IFS=$'\n'
   # shellcheck disable=SC2046
-  local matches=($(_commacd_expand "$(_commacd_join \* $(_commacd_split "$path"))"))
+  echo -n "$(_commacd_join \* $(_commacd_split "$path"))"
+)
+
+_commacd_glob() (
+  set -f
+  local path="${*%/}" IFS=$'\n'
+  if [[ "${path/\/}" == "$path" ]]; then
+    path="*$path*/"
+  else
+    # shellcheck disable=SC2046
+    path="$(_commacd_join \* $(_commacd_split "$path") | rev | sed 's/\//*\//' | rev)*/"
+  fi
+  echo -n "$path"
+)
+
+_commacd_forward_by_prefix() {
+  local matches=($(_commacd_expand "$(_commacd_prefix_glob "$*")"))
+  if [[ -z "$COMMACD_NOFUZZYFALLBACK" && ${#matches[@]} -eq 0 ]]; then
+    matches=($(_commacd_expand "$(_commacd_glob "$*")"))
+  fi
   case ${#matches[@]} in
     0) echo -n "$PWD";;
     *) printf "%s\n" "${matches[@]}"
@@ -85,6 +107,9 @@ _commacd_backward_by_prefix() {
     prev_dir="$dir"
     dir="${dir%/*}"
     matches=($(_commacd_expand "$dir/${1}*/"))
+    if [[ -z "$COMMACD_NOFUZZYFALLBACK" && ${#matches[@]} -eq 0 ]]; then
+      matches=($(_commacd_expand "$dir/*${1}*/"))
+    fi
     for match in "${matches[@]}"; do
         if [[ "$match" == "$prev_dir/" ]]; then
           echo -n "$prev_dir"
@@ -130,8 +155,10 @@ _commacd_backward_forward_by_prefix() {
   fi
   while [[ -n "$dir" ]]; do
     dir="${dir%/*}"
-    # shellcheck disable=SC2046
-    matches=($(_commacd_expand "$dir/$(_commacd_join \* $(_commacd_split "$path"))"))
+    matches=($(_commacd_expand "$dir/$(_commacd_prefix_glob "$*")"))
+    if [[ -z "$COMMACD_NOFUZZYFALLBACK" && ${#matches[@]} -eq 0 ]]; then
+      matches=($(_commacd_expand "$dir/$(_commacd_glob "$*")"))
+    fi
     case ${#matches[@]} in
       0) ;;
       *) printf "%s\n" "${matches[@]}"

@@ -42,6 +42,14 @@ describe 'commacd'
       cd $ROOT
       , s/b
       assert equal "$PWD" "$ROOT/space hell/b b"
+    it 'switches to fuzzy mode when there are no matches by prefix'
+      cd $ROOT/projects
+      , binlog
+      assert equal "$PWD" "$ROOT/projects/mysql-binlog-connector-java"
+    it 'switches to fuzzy mode when there are no matches by prefix containing /'
+      cd $ROOT
+      , p/binlog
+      assert equal "$PWD" "$ROOT/projects/mysql-binlog-connector-java"
   end_describe
 
   describe ',,'
@@ -57,7 +65,7 @@ describe 'commacd'
     it 'always switches to the closest match'
       cd $ROOT/projects/mysql-binlog-connector-java/src/main/java
       ,, m
-      assert equal "$PWD" $ROOT/projects/mysql-binlog-connector-java/src/main
+      assert equal "$PWD" "$ROOT/projects/mysql-binlog-connector-java/src/main"
     it 'performs substitution in case of two arguments'
       cd $ROOT/projects/jekyll
       ,, jekyll ghost
@@ -77,6 +85,10 @@ describe 'commacd'
       cd "$ROOT/space hell/b b"
       ,, s
       assert equal "$PWD" "$ROOT/space hell"
+    it 'switches to fuzzy mode when there are no matches by prefix'
+      cd $ROOT/projects/mysql-binlog-connector-java/src/main/java
+      ,, binlog
+      assert equal "$PWD" "$ROOT/projects/mysql-binlog-connector-java"
   end_describe
 
   describe ',,,'
@@ -111,6 +123,10 @@ describe 'commacd'
       cd "$ROOT/space hell/a a"
       ,,, b
       assert equal "$PWD" "$ROOT/space hell/b b"
+    it 'switches to fuzzy mode when there are no matches by prefix'
+      cd $ROOT/projects/mappify
+      ,,, binlog
+      assert equal "$PWD" "$ROOT/projects/mysql-binlog-connector-java"
   end_describe
 
 end_describe
