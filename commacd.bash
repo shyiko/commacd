@@ -110,9 +110,6 @@ _commacd_backward_by_prefix() {
     prev_dir="$dir"
     dir="${dir%/*}"
     matches=($(_commacd_expand "$dir/${1}*/"))
-    if [[ -z "$COMMACD_NOFUZZYFALLBACK" && ${#matches[@]} -eq 0 ]]; then
-      matches=($(_commacd_expand "$dir/*${1}*/"))
-    fi
     for match in "${matches[@]}"; do
         if [[ "$match" == "$prev_dir/" ]]; then
           echo -n "$prev_dir"
@@ -137,7 +134,10 @@ _commacd_backward() {
   local dir=
   case $# in
     0) dir=$(_commacd_backward_vcs_root);;
-    1) dir=$(_commacd_backward_by_prefix "$@");;
+    1) dir=$(_commacd_backward_by_prefix "$@")
+       if [[ -z "$COMMACD_NOFUZZYFALLBACK" && "$dir" == "$PWD" ]]; then
+         dir=$(_commacd_backward_by_prefix "*$@")
+       fi;;
     2) dir=$(_commacd_backward_substitute "$@");;
     *) return 1
   esac

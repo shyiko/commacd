@@ -3,7 +3,7 @@ shopt -s expand_aliases
 
 ROOT=/tmp/commacd.shpec
 rm -rf $ROOT
-mkdir -p $ROOT/projects/{jekyll,ghost,mysql-binlog-connector-java/src/main/java,mappify/{.git,src/test}}
+mkdir -p $ROOT/projects/{jekyll/node_modules/tj/src,ghost,mysql-binlog-connector-java/src/main/java,mappify/{.git,src/test}}
 mkdir -p $ROOT/space\ hell/{a\ a,b\ b,a\ b}
 
 COMMACD_CD=cd # supress pwd
@@ -89,6 +89,10 @@ describe 'commacd'
       cd $ROOT/projects/mysql-binlog-connector-java/src/main/java
       ,, binlog
       assert equal "$PWD" "$ROOT/projects/mysql-binlog-connector-java"
+    it 'switches to fuzzy mode only after full path scan'
+      cd $ROOT/projects/jekyll/node_modules/tj/src
+      ,, j
+      assert equal "$PWD" "$ROOT/projects/jekyll"
   end_describe
 
   describe ',,,'
