@@ -15,7 +15,7 @@
 shopt -s nocaseglob
 
 _commacd_split() {
-  # shellcheck disable=SC201
+  # shellcheck disable=SC2001
   echo "$1" | sed $'s|/|\\\n/|g'
 }
 _commacd_join() { local IFS="$1"; shift; echo "$*"; }
