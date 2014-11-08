@@ -71,6 +71,7 @@ make # lint sources and run tests
 
 ## Changelog
 
+- 0.2.1 - Ordered prefix/substring matching of `,,`.
 - 0.2.0 - Added substring (fuzzy) matching as a fallback to the default prefix lookup (can be turned off with `export COMMACD_NOFUZZYFALLBACK="on"`).
 - 0.1.0 - Starting point.
 
