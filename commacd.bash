@@ -134,9 +134,9 @@ _commacd_backward() {
   local dir=
   case $# in
     0) dir=$(_commacd_backward_vcs_root);;
-    1) dir=$(_commacd_backward_by_prefix "$@")
+    1) dir=$(_commacd_backward_by_prefix "$*")
        if [[ -z "$COMMACD_NOFUZZYFALLBACK" && "$dir" == "$PWD" ]]; then
-         dir=$(_commacd_backward_by_prefix "*$@")
+         dir=$(_commacd_backward_by_prefix "*$*")
        fi;;
     2) dir=$(_commacd_backward_substitute "$@");;
     *) return 1
