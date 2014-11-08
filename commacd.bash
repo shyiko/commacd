@@ -4,7 +4,7 @@
 # ENV variables that can be used to control commacd:
 #   COMMACD_CD - function to change the directory (by default commacd uses builtin cd and pwd)
 #   COMMACD_NOTTY - set it to "on" when you want to suppress user input (= print multiple matches and exit)
-#   COMMACD_NOFUZZYFALLBACK - set it to "on" if don't want commacd to use "fuzzy matching" as a fallback for
+#   COMMACD_NOFUZZYFALLBACK - set it to "on" if you don't want commacd to use "fuzzy matching" as a fallback for
 #     "no matches by prefix" (introduced in 0.2.0)
 #
 # @version 0.2.0
