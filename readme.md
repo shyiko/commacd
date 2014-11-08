@@ -15,7 +15,9 @@ curl https://raw.githubusercontent.com/shyiko/commacd/master/commacd.bash -o ~/.
 
 ## Usage
 
-`commacd` introduces three aliases: `,` (for jumping forward), `,,` (backward) and `,,,` (backward+forward):
+`commacd` exports three commands: `,` (for jumping forward), `,,` (backward) and `,,,` (backward+forward):
+
+> All three of them try to match by prefix first. Only if no results are found, will they fallback to substring (fuzzy) matching (0.2.0+).
 
 ```sh
 ~$ , des
@@ -37,7 +39,7 @@ curl https://raw.githubusercontent.com/shyiko/commacd/master/commacd.bash -o ~/.
   => cd ~/Desktop/jdk8
 
 # cd into directory having 'esk' somewhere in its name
-~/github$ , ~/*esk
+~/github$ , ~/esk # in pre-0.2.0 that would be `, ~/*esk`
   => cd ~/Desktop
 
 # go all the way up to the project root (in this case, the one that has .git in it)
@@ -53,7 +55,7 @@ curl https://raw.githubusercontent.com/shyiko/commacd/master/commacd.bash -o ~/.
   => cd ~/github/ghost/test
 
 # jump to some other project (in this case, located in ~/github)
-~/github/rook/src/public$ ,,, m*binlog
+~/github/rook/src/public$ ,,, binlog # in pre-0.2.0 you would need to use `m*binlog` 
   => cd ~/github/mysql-binlog-connector-java
 ```
 
@@ -66,6 +68,11 @@ For more information, please refer to http://shyiko.com/2014/10/10/commacd/.
 ```sh
 make # lint sources and run tests 
 ```
+
+## Changelog
+
+- 0.2.0 - Added substring (fuzzy) matching as a fallback to the default prefix lookup (can be turned off with `export COMMACD_NOFUZZYFALLBACK="on"`).
+- 0.1.0 - Starting point.
 
 ## License
 
