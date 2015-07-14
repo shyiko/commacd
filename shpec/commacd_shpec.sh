@@ -29,7 +29,7 @@ describe 'commacd'
       assert equal "$PWD" "$ROOT/projects/jekyll"
     it 'asks for user input in case of multiple choices'
       cd $ROOT
-      , $ROOT/p/m 2> /dev/null <<< $(echo 1)
+      , $ROOT/p/m 2> /dev/null <<< $(echo 0)
       assert equal "$PWD" "$ROOT/projects/mappify"
     it 'can be used in subshells'
       cd $ROOT
@@ -114,7 +114,7 @@ describe 'commacd'
       assert equal "$PWD" "$ROOT/projects/mysql-binlog-connector-java"
     it 'asks for user input in case of multiple choices'
       cd $ROOT/projects/jekyll
-      ,,, m 2> /dev/null <<< $(echo 1)
+      ,,, m 2> /dev/null <<< $(echo 0)
       assert equal "$PWD" "$ROOT/projects/mappify"
     it 'can be used in subshells'
       cd $ROOT/projects/jekyll

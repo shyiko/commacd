@@ -6,6 +6,7 @@
 #   COMMACD_NOTTY - set it to "on" when you want to suppress user input (= print multiple matches and exit)
 #   COMMACD_NOFUZZYFALLBACK - set it to "on" if you don't want commacd to use "fuzzy matching" as a fallback for
 #     "no matches by prefix" (introduced in 0.2.0)
+#   COMMACD_SEQSTART - set it to 1 if you want "multiple choices" to start from 1 instead of 0
 #
 # @version 0.2.1
 # @author Stanley Shyiko <stanley.shyiko@gmail.com>
@@ -34,12 +35,12 @@ _command_cd() {
 _commacd_choose_match() {
   local matches=("$@")
   for i in "${!matches[@]}"; do
-    printf "%s\t%s\n" "$((i+1))" "${matches[$i]}" >&2
+    printf "%s\t%s\n" "$((i+${COMMACD_SEQSTART:-0}))" "${matches[$i]}" >&2
   done
   local selection;
   read -e -p ': ' selection >&2
   if [[ -n "$selection" ]]; then
-    echo -n "${matches[$((selection-1))]}"
+    echo -n "${matches[$((selection-${COMMACD_SEQSTART:-0}))]}"
   else
     echo -n "$PWD"
   fi
