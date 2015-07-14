@@ -6,4 +6,4 @@ lint:
 
 test:
 	test -s `which shpec` || { echo "shpec (https://github.com/rylnd/shpec) wasn't found on the PATH. Please install it and try again"; exit 1; }
-	shpec
+	bash -i -c "shpec"
