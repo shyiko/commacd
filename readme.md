@@ -13,6 +13,12 @@ curl https://raw.githubusercontent.com/shyiko/commacd/master/commacd.bash -o ~/.
 
 > On OS X you'll need to make sure ~/.bashrc is sourced from ~/.bash_profile (http://ss64.com/osx/syntax-bashrc.html). 
 
+## Updating to the latest version
+
+```sh
+curl https://raw.githubusercontent.com/shyiko/commacd/master/commacd.bash -o ~/.commacd.bash
+```
+
 ## Usage
 
 `commacd` exports three commands: `,` (for jumping forward), `,,` (backward) and `,,,` (backward+forward):
