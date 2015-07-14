@@ -187,6 +187,10 @@ _commacd_backward_forward() {
   _command_cd "$dir"
 }
 
+_commacd_completion_invalid() {
+  if [[ "$2" == "$PWD" || "${2// /\\ }" == "$1" ]]; then return 0; else return 1; fi
+}
+
 _commacd_completion() {
   local pattern=${COMP_WORDS[COMP_CWORD]} IFS=$'\n'
   # shellcheck disable=SC2088
@@ -195,8 +199,13 @@ _commacd_completion() {
     pattern=$(echo ~/"${pattern:2}")
   fi
   local completion=($(COMMACD_NOTTY=on $1 "$pattern"))
-  if [[ "$completion" == "$PWD" || "${completion// /\\ }" == "$pattern" ]]; then
-    return
+  if _commacd_completion_invalid "$pattern" "$completion"; then
+    pattern="$pattern?"
+    # retry with ? matching
+    completion=($(COMMACD_NOTTY=on $1 "$pattern"))
+    if _commacd_completion_invalid "$pattern" "$completion"; then
+      return
+    fi
   fi
   # remove trailing / (if any)
   for i in "${!completion[@]}"; do
