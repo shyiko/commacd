@@ -8,7 +8,7 @@
 #     "no matches by prefix" (introduced in 0.2.0)
 #   COMMACD_SEQSTART - set it to 1 if you want "multiple choices" to start from 1 instead of 0
 #
-# @version 0.2.1
+# @version 0.3.0
 # @author Stanley Shyiko <stanley.shyiko@gmail.com>
 # @license MIT
 
