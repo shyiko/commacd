@@ -77,6 +77,7 @@ make # lint sources and run tests
 
 ## Changelog
 
+- 0.3.1 - Fixed VCS root lookup (`,,`) in case of nested checkouts (`/.../checkout_1/.../checkout_2`).
 - 0.3.0 - Improved tab completion. "multiple choices" can now start with 1 (still 0 by default, but can be changed using `export COMMACD_SEQSTART=1`) (thanks to [@skorochkin](https://github.com/skorochkin)).
 - 0.2.1 - Ordered prefix/substring matching of `,,`.
 - 0.2.0 - Added substring (fuzzy) matching as a fallback to the default prefix lookup (can be turned off with `export COMMACD_NOFUZZYFALLBACK="on"`).
