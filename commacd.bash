@@ -93,7 +93,7 @@ _commacd_forward() {
 
 # search backward for the vcs root (`,,`)
 _commacd_backward_vcs_root() {
-  local dir="$PWD"
+  local dir="${PWD%/*}"
   while [[ ! -d "$dir/.git" && ! -d "$dir/.hg" && ! -d "$dir/.svn" ]]; do
     dir="${dir%/*}"
     if [[ -z "$dir" ]]; then
