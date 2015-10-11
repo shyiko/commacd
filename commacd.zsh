@@ -27,10 +27,10 @@ _commacd_join() {
 }
 
 _commacd_expand() {
-  setopt -s extendedglob nullglob
+  (setopt -s extendedglob nullglob
   local ex
   ex=$~1
-  printf "%s\n" $~ex
+  printf "%s\n" $~ex)
 }
 
 _command_cd() {
