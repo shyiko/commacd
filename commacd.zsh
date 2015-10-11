@@ -19,8 +19,19 @@ _commacd_split() {
   # shellcheck disable=SC2001
   echo "$1" | sed $'s|/|\\\n/|g'
 }
-_commacd_join() { local IFS="$1"; shift; echo "$*"; }
-_commacd_expand() ( setopt -s extendedglob nullglob; local ex=($~1); printf "%s\n" "${ex[@]}"; )
+_commacd_join() {
+  local IFS
+  IFS="$1"
+  shift
+  echo "$*";
+}
+
+_commacd_expand() {
+  setopt -s extendedglob nullglob
+  local ex
+  ex=$~1
+  printf "%s\n" $~ex
+}
 
 _command_cd() {
   local dir=$1
@@ -33,8 +44,9 @@ _command_cd() {
 
 # show match selection menu
 _commacd_choose_match() {
-  local matches=("$@")
-  for i in "${!matches[@]}"; do
+  local matches
+  matches=("$@")
+  for ((i=1; i<=$#matches; i++)); do
     printf "%s\t%s\n" "$((i+${COMMACD_SEQSTART:-0}))" "${matches[$i]}" >&2
   done
   local selection;
@@ -66,7 +78,8 @@ _commacd_glob() (
 )
 
 _commacd_forward_by_prefix() {
-  local matches=($(_commacd_expand "$(_commacd_prefix_glob "$*")"))
+  local matches
+  matches=$(_commacd_expand "$(_commacd_prefix_glob "$*")")
   if [[ -z "$COMMACD_NOFUZZYFALLBACK" && ${#matches[@]} -eq 0 ]]; then
     matches=($(_commacd_expand "$(_commacd_glob "$*")"))
   fi
@@ -79,8 +92,10 @@ _commacd_forward_by_prefix() {
 # jump forward (`,`)
 _commacd_forward() {
   if [[ -z "$*" ]]; then return 1; fi
-  local IFS=$'\n'
-  local dir=($(_commacd_forward_by_prefix "$@"))
+  local IFS
+  IFS=$'\n'
+  local dir
+  dir=($(_commacd_forward_by_prefix "$@"))
   if [[ "$COMMACD_NOTTY" == "on" ]]; then
     printf "%s\n" "${dir[@]}"
     return
