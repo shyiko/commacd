@@ -190,8 +190,10 @@ _commacd_backward_forward_by_prefix() {
 # combine backtracking with `, $1` (`,,, $1`)
 _commacd_backward_forward() {
   if [[ -z "$*" ]]; then return 1; fi
-  local IFS=$'\n'
-  local dir=($(_commacd_backward_forward_by_prefix "$@"))
+  local IFS
+  IFS=$'\n'
+  local dir
+  dir=($(_commacd_backward_forward_by_prefix "$@"))
   if [[ "$COMMACD_NOTTY" == "on" ]]; then
     printf "%s\n" "${dir[@]}"
     return
