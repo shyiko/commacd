@@ -49,8 +49,8 @@ _commacd_choose_match() {
   for ((i=1; i<=$#matches; i++)); do
     printf "%s\t%s\n" "$((i+${COMMACD_SEQSTART:-0}))" "${matches[$i]}" >&2
   done
-  local selection;
-  read -e -p ': ' selection >&2
+  local selection
+  read 'selection?: '
   if [[ -n "$selection" ]]; then
     echo -n "${matches[$((selection-${COMMACD_SEQSTART:-0}))]}"
   else
