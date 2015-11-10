@@ -7,6 +7,7 @@
 #   COMMACD_NOFUZZYFALLBACK - set it to "on" if you don't want commacd to use "fuzzy matching" as a fallback for
 #     "no matches by prefix" (introduced in 0.2.0)
 #   COMMACD_SEQSTART - set it to 1 if you want "multiple choices" to start from 1 instead of 0
+#   COMMACD_SPACESEP - set it to "on" (or any value) to also allow space as directory seperator
 #
 # @version 0.3.1
 # @author Stanley Shyiko <stanley.shyiko@gmail.com>
@@ -226,9 +227,30 @@ _commacd_backward_forward_completion() {
   _commacd_completion _commacd_backward_forward
 }
 
-alias ,=_commacd_forward
-alias ,,=_commacd_backward
-alias ,,,=_commacd_backward_forward
+_commacd_forward_spacesep() {
+    local path="$@"
+    _commacd_forward ${path//\ //}
+}
+
+_commacd_backward_spacesep() {
+    local path="$@"
+    _commacd_backward ${path//\ //}
+}
+
+_commacd_backward_forward_spacesep() {
+    local path="$@"
+    _commacd_backward_forward ${path//\ //}
+}
+
+if [[ -z $COMMACD_SPACESEP ]]; then
+  alias ,=_commacd_forward
+  alias ,,=_commacd_backward
+  alias ,,,=_commacd_backward_forward
+else
+  alias ,=_commacd_forward_spacesep
+  alias ,,=_commacd_backward_spacesep
+  alias ,,,=_commacd_backward_forward_spacesep
+fi
 
 complete -o filenames -F _commacd_forward_completion ,
 complete -o filenames -F _commacd_backward_completion ,,
