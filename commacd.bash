@@ -23,7 +23,7 @@ _commacd_join() { local IFS="$1"; shift; echo "$*"; }
 _commacd_expand() ( shopt -s extglob nullglob; local ex=($1); printf "%s\n" "${ex[@]}"; )
 
 _command_cd() {
-  local dir=$1
+  local dir=$1 IFS=$' \t\n'
   if [[ -z "$COMMACD_CD" ]]; then
     builtin cd "$dir" && pwd
   else
