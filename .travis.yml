@@ -1,7 +1,10 @@
 language: bash
 
+before_install:
+  - sudo apt-get -qq update
+
 install:
-  - sudo apt-get --yes --force-yes install shellcheck
+  - sudo apt-get install -y shellcheck
   - sudo sh -c "`curl -L https://raw.github.com/rylnd/shpec/master/install.sh`"
 
 script: make
