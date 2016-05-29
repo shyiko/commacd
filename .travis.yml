@@ -1,11 +1,7 @@
 language: bash
 
-before_install:
-  - sudo apt-get update && sudo apt-get install cabal-install
-  - export PATH=$HOME/.cabal/bin:$PATH
-
 install:
-  - cabal update && cabal install shellcheck
+  - sudo apt-get --yes --force-yes install shellcheck
   - sudo sh -c "`curl -L https://raw.github.com/rylnd/shpec/master/install.sh`"
 
 script: make
