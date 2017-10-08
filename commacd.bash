@@ -86,7 +86,14 @@ _commacd_forward() {
     return
   fi
   if [[ ${#dir[@]} -gt 1 ]]; then
+    # https://github.com/shyiko/commacd/issues/12
+    trap 'trap - SIGINT; stty '"$(stty -g)" SIGINT
+
     dir=$(_commacd_choose_match "${dir[@]}")
+
+    # make sure trap is removed regardless of whether read -e ... was interrupted or not
+    trap - SIGINT
+    if [[ -z "$dir" ]]; then return 1; fi
   fi
   _command_cd "$dir"
 }
