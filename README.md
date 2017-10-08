@@ -2,7 +2,7 @@
 
 A faster way to move around (Bash 3+).
 
-> While going through "Usage" section please keep in mind that `commacd` is NOT an [autojump](https://github.com/joelthelion/autojump)/[z](https://github.com/rupa/z)/[fasd](https://github.com/clvv/fasd) alternative nor they are mutualy exclusive. It doesn't track history, write any logs, nothing like that. It really is just an improved `cd`.
+> While going through "Usage" section please keep in mind that `commacd` is NOT an [autojump](https://github.com/joelthelion/autojump)/[z](https://github.com/rupa/z)/[fasd](https://github.com/clvv/fasd) alternative nor they are mutually exclusive. It doesn't track history or write any logs. Think of it as improved `cd`.
 
 ## Installation
 
@@ -74,15 +74,6 @@ For more information, please refer to http://shyiko.com/2014/10/10/commacd/.
 ```sh
 make # lint sources and run tests 
 ```
-
-## Changelog
-
-- 0.3.2 - Fixed COMMACD_CD handling [#10](https://github.com/shyiko/commacd/issues/10) (thanks to [@chilicuil](https://github.com/chilicuil)).
-- 0.3.1 - Fixed VCS root lookup (`,,`) in case of nested checkouts (`/.../checkout_1/.../checkout_2`).
-- 0.3.0 - Improved tab completion. "multiple choices" can now start with 1 (still 0 by default, but can be changed using `export COMMACD_SEQSTART=1`) (thanks to [@skorochkin](https://github.com/skorochkin)).
-- 0.2.1 - Ordered prefix/substring matching of `,,`.
-- 0.2.0 - Added substring (fuzzy) matching as a fallback to the default prefix lookup (can be turned off with `export COMMACD_NOFUZZYFALLBACK="on"`).
-- 0.1.0 - Starting point.
 
 ## License
 

@@ -1,0 +1,44 @@
+# Changelog
+All notable changes to this project will be documented in this file.
+
+The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
+and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
+
+## [0.3.3] - 2017-10-07
+
+### Fixed
+- Terminal in inconsistent state after interrupt signal (`^C`) ([#12](https://github.com/shyiko/commacd/issues/12)).
+
+## [0.3.2] - 2016-05-29
+
+### Fixed
+- COMMACD_CD handling [#10](https://github.com/shyiko/commacd/issues/10) (thanks to [@chilicuil](https://github.com/chilicuil)).
+
+## [0.3.1] - 2015-08-29 
+
+### Fixed
+- VCS root lookup (`,,`) in case of nested checkouts (`/.../checkout_1/.../checkout_2`).
+
+## [0.3.0] - 2015-07-14
+
+### Added
+- A way to change enumeration of "multiple choices" to start from 1 (instead of default 0) (use `export COMMACD_SEQSTART=1` to activate) (thanks to [@skorochkin](https://github.com/skorochkin)).
+
+## [0.2.1] - 2014-11-08
+
+## Fixed
+- Order of `,,`'s prefix/substring matching.
+
+## [0.2.0] - 2014-11-07
+
+## Added
+- Substring (fuzzy) matching as a fallback to the default prefix lookup (can be turned off with `export COMMACD_NOFUZZYFALLBACK="on"`).
+
+## 0.1.0 - 2014-11-07
+
+[0.3.3]: https://github.com/shyiko/commacd/compare/v0.3.2...v0.3.3
+[0.3.2]: https://github.com/shyiko/commacd/compare/v0.3.1...v0.3.2
+[0.3.1]: https://github.com/shyiko/commacd/compare/v0.3.0...v0.3.1
+[0.3.0]: https://github.com/shyiko/commacd/compare/v0.2.1...v0.3.0
+[0.2.1]: https://github.com/shyiko/commacd/compare/v0.2.0...v0.2.1
+[0.2.0]: https://github.com/shyiko/commacd/compare/v0.1.0...v0.2.0
