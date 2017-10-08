@@ -7,16 +7,16 @@ A faster way to move around (Bash 3+).
 ## Installation
 
 ```sh
-curl https://raw.githubusercontent.com/shyiko/commacd/master/commacd.bash -o ~/.commacd.bash && \
+curl -sL https://github.com/shyiko/commacd/raw/v0.3.3/commacd.bash -o ~/.commacd.bash && \
   echo "source ~/.commacd.bash" >> ~/.bashrc
 ```
 
 > On OS X you'll need to make sure ~/.bashrc is sourced from ~/.bash_profile (http://ss64.com/osx/syntax-bashrc.html). 
 
-## Updating to the latest version
+## Upgrading to the latest version
 
 ```sh
-curl https://raw.githubusercontent.com/shyiko/commacd/master/commacd.bash -o ~/.commacd.bash
+curl -sL https://github.com/shyiko/commacd/raw/v0.3.3/commacd.bash -o ~/.commacd.bash
 ```
 
 ## Usage
