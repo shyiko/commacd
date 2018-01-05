@@ -20,7 +20,7 @@ _commacd_split() {
   echo "$1" | sed $'s|/|\\\n/|g'
 }
 _commacd_join() { local IFS="$1"; shift; echo "$*"; }
-_commacd_expand() ( shopt -s extglob nullglob; local ex=($1); printf "%s\n" "${ex[@]}"; )
+_commacd_expand() ( shopt -s extglob nullglob; shopt -u failglob; local ex=($1); printf "%s\n" "${ex[@]}"; )
 
 _command_cd() {
   local dir=$1 IFS=$' \t\n'
