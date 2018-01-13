@@ -7,7 +7,7 @@ A faster way to move around (Bash 3+).
 ## Installation
 
 ```sh
-curl -sL https://github.com/shyiko/commacd/raw/v0.3.4/commacd.bash -o ~/.commacd.bash && \
+curl -sL https://github.com/shyiko/commacd/raw/v0.4.0/commacd.bash -o ~/.commacd.bash && \
   echo "source ~/.commacd.bash" >> ~/.bashrc
 ```
 
@@ -16,7 +16,7 @@ curl -sL https://github.com/shyiko/commacd/raw/v0.3.4/commacd.bash -o ~/.commacd
 ## Upgrading to the latest version
 
 ```sh
-curl -sL https://github.com/shyiko/commacd/raw/v0.3.4/commacd.bash -o ~/.commacd.bash
+curl -sL https://github.com/shyiko/commacd/raw/v0.4.0/commacd.bash -o ~/.commacd.bash
 ```
 
 ## Usage
