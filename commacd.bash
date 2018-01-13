@@ -38,7 +38,11 @@ _commacd_choose_match() {
     printf "%s\t%s\n" "$((i+${COMMACD_SEQSTART:-0}))" "${matches[$i]}" >&2
   done
   local selection;
-  read -e -p ': ' selection >&2
+  if [[ ${#matches[@]} -lt 11 ]]; then
+    read -n1 -s -p ': ' selection >&2
+  else
+    read -e -p ': ' selection >&2 
+  fi
   if [[ -n "$selection" ]]; then
     echo -n "${matches[$((selection-${COMMACD_SEQSTART:-0}))]}"
   else
