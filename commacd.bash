@@ -8,9 +8,9 @@
 #     "no matches by prefix" (introduced in 0.2.0)
 #   COMMACD_SEQSTART - set it to 1 if you want "multiple choices" to start from 1 instead of 0
 #   COMMACD_IMPLICITENTER - set it to "on" to avoid pressing <ENTER> when number of options (to select from) 
-#     is less than 10
+#     is less than 10 (introduced in 0.4.0)
 #
-# @version 0.3.4
+# @version 0.4.0
 # @author Stanley Shyiko <stanley.shyiko@gmail.com>
 # @license MIT
 
