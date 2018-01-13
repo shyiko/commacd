@@ -74,7 +74,7 @@ _commacd_glob() (
 
 _commacd_forward_by_prefix() {
   local matches=($(_commacd_expand "$(_commacd_prefix_glob "$*")"))
-  if [[ -z "$COMMACD_NOFUZZYFALLBACK" && ${#matches[@]} -eq 0 ]]; then
+  if [[ "$COMMACD_NOFUZZYFALLBACK" != "on" && ${#matches[@]} -eq 0 ]]; then
     matches=($(_commacd_expand "$(_commacd_glob "$*")"))
   fi
   case ${#matches[@]} in
@@ -150,7 +150,7 @@ _commacd_backward() {
   case $# in
     0) dir=$(_commacd_backward_vcs_root);;
     1) dir=$(_commacd_backward_by_prefix "$*")
-       if [[ -z "$COMMACD_NOFUZZYFALLBACK" && "$dir" == "$PWD" ]]; then
+       if [[ "$COMMACD_NOFUZZYFALLBACK" != "on" && "$dir" == "$PWD" ]]; then
          dir=$(_commacd_backward_by_prefix "*$*")
        fi;;
     2) dir=$(_commacd_backward_substitute "$@");;
@@ -174,7 +174,7 @@ _commacd_backward_forward_by_prefix() {
   while [[ -n "$dir" ]]; do
     dir="${dir%/*}"
     matches=($(_commacd_expand "$dir/$(_commacd_prefix_glob "$*")"))
-    if [[ -z "$COMMACD_NOFUZZYFALLBACK" && ${#matches[@]} -eq 0 ]]; then
+    if [[ "$COMMACD_NOFUZZYFALLBACK" != "on" && ${#matches[@]} -eq 0 ]]; then
       matches=($(_commacd_expand "$dir/$(_commacd_glob "$*")"))
     fi
     case ${#matches[@]} in
