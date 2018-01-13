@@ -7,6 +7,8 @@
 #   COMMACD_NOFUZZYFALLBACK - set it to "on" if you don't want commacd to use "fuzzy matching" as a fallback for
 #     "no matches by prefix" (introduced in 0.2.0)
 #   COMMACD_SEQSTART - set it to 1 if you want "multiple choices" to start from 1 instead of 0
+#   COMMACD_IMPLICITENTER - set it to "on" to avoid pressing <ENTER> when number of options (to select from) 
+#     is less than 10
 #
 # @version 0.3.4
 # @author Stanley Shyiko <stanley.shyiko@gmail.com>
@@ -38,8 +40,9 @@ _commacd_choose_match() {
     printf "%s\t%s\n" "$((i+${COMMACD_SEQSTART:-0}))" "${matches[$i]}" >&2
   done
   local selection;
-  if [[ ${#matches[@]} -lt 11 ]]; then
-    read -n1 -s -p ': ' selection >&2
+  local threshold=$((11-${COMMACD_SEQSTART:-0}))
+  if [[ "$COMMACD_IMPLICITENTER" == "on" && ${#matches[@]} -lt $threshold ]]; then
+    read -n1 -e -p ': ' selection >&2
   else
     read -e -p ': ' selection >&2 
   fi
