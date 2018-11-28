@@ -15,14 +15,33 @@
 # @license MIT
 
 # turn on case-insensitive search by default
-shopt -s nocaseglob
+
+if [ -n "$BASH_VERSION" ]; then
+  shopt -s nocaseglob
+elif [ -n "$ZSH_VERSION" ]; then
+  setopt no_case_glob
+else
+  echo "Sorry, commacd.sh is only available for bash and zsh" >&2
+  return
+fi
 
 _commacd_split() {
   # shellcheck disable=SC2001
   echo "$1" | sed $'s|/|\\\n/|g'
 }
 _commacd_join() { local IFS="$1"; shift; echo "$*"; }
-_commacd_expand() ( shopt -s extglob nullglob; shopt -u failglob; local ex=($1); printf "%s\n" "${ex[@]}"; )
+
+_commacd_expand() {
+  if [ -n "$BASH_VERSION" ]; then
+    shopt -s extglob nullglob
+    shopt -u failglob
+    local ex=($1);
+    printf "%s\n" "${ex[@]}";
+  else
+    setopt local_options no_case_glob extended_glob null_glob
+    print -rl - ${~1}
+  fi
+}
 
 _command_cd() {
   local dir=$1 IFS=$' \t\n'
@@ -36,18 +55,38 @@ _command_cd() {
 # show match selection menu
 _commacd_choose_match() {
   local matches=("$@")
-  for i in "${!matches[@]}"; do
-    printf "%s\t%s\n" "$((i+${COMMACD_SEQSTART:-0}))" "${matches[$i]}" >&2
+  local length=${#matches}
+  for ((i=0;i<length;i++)); do
+    if [ -n "$BASH_VERSION" ]; then
+      local value="${matches[$i]}"
+    else
+      local value="${matches[$(($i+1))]}"
+    fi
+    [ -z "$value" ] && break
+    printf "%s\t%s\n" "$((i+${COMMACD_SEQSTART:-0}))" "$value" >&2
   done
   local selection;
   local threshold=$((11-${COMMACD_SEQSTART:-0}))
+  local re='^[0-9]+$'
   if [[ "$COMMACD_IMPLICITENTER" == "on" && ${#matches[@]} -lt $threshold ]]; then
-    read -n1 -e -p ': ' selection >&2
+    if [ -n "$BASH_VERSION" ]; then
+      read -n1 -e -p ': ' selection >&2
+    else
+      read -k1 "selection?: " >&2
+    fi
   else
-    read -e -p ': ' selection >&2 
+    if [ -n "$BASH_VERSION" ]; then
+      read -e -p ': ' selection >&2 
+    else
+      read "selection?: " >&2
+    fi
   fi
-  if [[ -n "$selection" ]]; then
-    echo -n "${matches[$((selection-${COMMACD_SEQSTART:-0}))]}"
+  if [[ -n "$selection" ]] && [[ "$selection" =~ $re ]]; then
+    if [ -n "$BASH_VERSION" ]; then
+      echo -n "${matches[$((selection-${COMMACD_SEQSTART:-0}))]}"
+    else
+      echo -n "${matches[$((selection-${COMMACD_SEQSTART:-0}+1))]}"
+    fi
   else
     echo -n "$PWD"
   fi
@@ -55,21 +94,23 @@ _commacd_choose_match() {
 
 _commacd_prefix_glob() (
   set -f
-  local path="${*%/}/" IFS=$'\n'
+  # note: path has been renamed to pathname, because lower case $path 
+  # will override upper case $PATH on zsh when no_case_glob is enabled.
+  local pathname="${*%/}/" IFS=$'\n'
   # shellcheck disable=SC2046
-  echo -n "$(_commacd_join \* $(_commacd_split "$path"))"
+  echo -n "$(_commacd_join \* $(_commacd_split "$pathname"))"
 )
 
 _commacd_glob() (
   set -f
-  local path="${*%/}" IFS=$'\n'
-  if [[ "${path/\/}" == "$path" ]]; then
-    path="*$path*/"
+  local pathname="${*%/}" IFS=$'\n'
+  if [[ "${pathname/\/}" == "$pathname" ]]; then
+    pathname="*$pathname*/"
   else
     # shellcheck disable=SC2046
-    path="$(_commacd_join \* $(_commacd_split "$path") | rev | sed 's/\//*\//' | rev)*/"
+    pathname="$(_commacd_join \* $(_commacd_split "$pathname") | rev | sed 's/\//*\//' | rev)*/"
   fi
-  echo -n "$path"
+  echo -n "$pathname"
 )
 
 _commacd_forward_by_prefix() {
@@ -121,14 +162,25 @@ _commacd_backward_vcs_root() {
 # search backward for the directory whose name begins with $1 (`,, $1`)
 _commacd_backward_by_prefix() {
   local prev_dir dir="${PWD%/*}" matches match IFS=$'\n'
+  local imatch=""
+  # case insensitive pathname must be detected, or zsh will go wrong state. 
+  case "$(uname -a)" in
+    *CYGWIN*|*cygwin*|*MSYS*|*MINGW*) local imatch=1 ;;
+    *Microsoft*|*WSL*) local imatch=1 ;;
+  esac
   while [[ -n "$dir" ]]; do
     prev_dir="$dir"
     dir="${dir%/*}"
     matches=($(_commacd_expand "$dir/${1}*/"))
     for match in "${matches[@]}"; do
-        if [[ "$match" == "$prev_dir/" ]]; then
+        if [ "$match" = "$prev_dir/" ]; then
           echo -n "$prev_dir"
           return
+        elif [ -n "$imatch" -a -n "$ZSH_VERSION" ]; then
+          if [ "${match:u}" = "${prev_dir:u}/" ]; then
+            echo -n "$prev_dir"
+            return
+          fi
         fi
     done
   done
@@ -164,10 +216,10 @@ _commacd_backward() {
 }
 
 _commacd_backward_forward_by_prefix() {
-  local dir="$PWD" path="${*%/}/" matches match IFS=$'\n'
-  if [[ "${path:0:1}" == "/" ]]; then
+  local dir="$PWD" pathname="${*%/}/" matches match IFS=$'\n'
+  if [[ "${pathname:0:1}" == "/" ]]; then
     # assume that we've been brought here by the completion
-    dir=(${path%/}*)
+    dir=(${pathname%/}*)
     printf "%s\n" "${dir[@]}"
     return
   fi
@@ -244,6 +296,14 @@ alias ,=_commacd_forward
 alias ,,=_commacd_backward
 alias ,,,=_commacd_backward_forward
 
-complete -o filenames -F _commacd_forward_completion ,
-complete -o filenames -F _commacd_backward_completion ,,
-complete -o filenames -F _commacd_backward_forward_completion ,,,
+# completion is for bash only.
+if [ -n "$BASH_VERSION" ]; then
+  complete -o filenames -F _commacd_forward_completion ,
+  complete -o filenames -F _commacd_backward_completion ,,
+  complete -o filenames -F _commacd_backward_forward_completion ,,,
+fi
+
+
+# allow me to add a modeline, to keep the indent size.
+# vim: set ts=2 sw=2 tw=0 et ::
+
