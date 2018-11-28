@@ -16,9 +16,9 @@
 
 # turn on case-insensitive search by default
 
-if [[ -n "$BASH_VERSION" ]]; then
+if [ -n "$BASH_VERSION" ]; then
   shopt -s nocaseglob
-elif [[ -n "$ZSH_VERSION" ]]; then
+elif [ -n "$ZSH_VERSION" ]; then
   setopt no_case_glob
 else
   echo "Sorry, commacd.sh is only available for bash and zsh" >&2
