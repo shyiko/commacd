@@ -176,10 +176,17 @@ _commacd_backward_by_prefix() {
         if [ "$match" = "$prev_dir/" ]; then
           echo -n "$prev_dir"
           return
-        elif [ -n "$imatch" -a -n "$ZSH_VERSION" ]; then
-          if [ "${match:u}" = "${prev_dir:u}/" ]; then
-            echo -n "$prev_dir"
-            return
+        elif [ -n "$imatch" ]; then
+          if [ -n "$BASH_VERSION" ]; then
+            if [ "${match,,}" = "${prev_dir,,}/" ]; then
+              echo -n "$prev_dir"
+              return
+            fi
+          else
+            if [ "${match:u}" = "${prev_dir:u}/" ]; then
+              echo -n "$prev_dir"
+              return
+            fi
           fi
         fi
     done
