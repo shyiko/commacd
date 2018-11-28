@@ -1,5 +1,5 @@
 shopt -s expand_aliases
-. commacd.bash
+. commacd.sh
 
 ROOT=/tmp/commacd.shpec
 rm -rf $ROOT
