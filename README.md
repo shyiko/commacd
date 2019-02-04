@@ -32,8 +32,6 @@ curl -sSL https://github.com/shyiko/commacd/raw/v1.0.0/commacd.sh -o ~/.commacd.
 
 `commacd` exports three commands: `,` (for jumping forward), `,,` (backward) and `,,,` (backward+forward):
 
-> All three of them try to match by prefix first. Only if no results are found, will they fallback to substring (fuzzy) matching (0.2.0+).
-
 ```sh
 ~$ , des
   => cd Desktop
