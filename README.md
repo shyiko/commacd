@@ -1,22 +1,31 @@
 # commacd [![Build Status](https://travis-ci.org/shyiko/commacd.svg)](https://travis-ci.org/shyiko/commacd)
 
-A faster way to move around (Bash 3+).
+A faster way to move around (Bash 3+/Zsh).
 
-> While going through "Usage" section please keep in mind that `commacd` is NOT an [autojump](https://github.com/joelthelion/autojump)/[z](https://github.com/rupa/z)/[fasd](https://github.com/clvv/fasd) alternative nor they are mutually exclusive. It doesn't track history or write any logs. Think of it as improved `cd`.
+> `commacd` is NOT an [autojump](https://github.com/joelthelion/autojump)/[z](https://github.com/rupa/z)/[fasd](https://github.com/clvv/fasd) alternative nor they are mutually exclusive. Think of it as an improved `cd`.
 
 ## Installation
 
+#### Bash
+
 ```sh
-curl -sL https://github.com/shyiko/commacd/raw/v0.4.0/commacd.sh -o ~/.commacd.sh && \
+curl -sSL https://github.com/shyiko/commacd/raw/v1.0.0/commacd.sh -o ~/.commacd.sh && \
   echo "source ~/.commacd.sh" >> ~/.bashrc
 ```
 
-> On OS X you'll need to make sure ~/.bashrc is sourced from ~/.bash_profile (http://ss64.com/osx/syntax-bashrc.html). 
+> macOS users: make sure [~/.bashrc is sourced from ~/.bash_profile](http://ss64.com/osx/syntax-bashrc.html).
+
+#### Zsh
+
+```sh
+curl -sSL https://github.com/shyiko/commacd/raw/v1.0.0/commacd.sh -o ~/.commacd.sh && \
+  echo "source ~/.commacd.sh" >> ~/.zshrc
+```
 
 ## Upgrading to the latest version
 
 ```sh
-curl -sL https://github.com/shyiko/commacd/raw/v0.4.0/commacd.sh -o ~/.commacd.sh
+curl -sSL https://github.com/shyiko/commacd/raw/v1.0.0/commacd.sh -o ~/.commacd.sh
 ```
 
 ## Usage
@@ -39,7 +48,7 @@ curl -sL https://github.com/shyiko/commacd/raw/v0.4.0/commacd.sh -o ~/.commacd.s
      2 Downloads
      : <type index of the directory to cd into>
 
-# given two directories jdk7 and jdk8 on the Desktop, cd into jdk8 without hitting 
+# given two directories jdk7 and jdk8 on the Desktop, cd into jdk8 without hitting
 # interactive mode (the one shown above)
 ~/github$ , ~/d/j*8
   => cd ~/Desktop/jdk8
@@ -61,18 +70,18 @@ curl -sL https://github.com/shyiko/commacd/raw/v0.4.0/commacd.sh -o ~/.commacd.s
   => cd ~/github/ghost/test
 
 # jump to some other project (in this case, located in ~/github)
-~/github/rook/src/public$ ,,, binlog # in pre-0.2.0 you would need to use `m*binlog` 
+~/github/rook/src/public$ ,,, binlog # in pre-0.2.0 you would need to use `m*binlog`
   => cd ~/github/mysql-binlog-connector-java
 ```
 
-As a bonus, all three aliases support `<Tab>` expansion (try `, /u/lo<Tab>`) and can be combined with other tools (e.g. ``ls `, /u/lo` ``). 
+As a bonus, all three aliases support `<Tab>` expansion (try `, /u/lo<Tab>`) and can be combined with other tools (e.g. ``ls `, /u/lo` ``).
 
 For more information, please refer to http://shyiko.com/2014/10/10/commacd/.
 
 ## Development
 
 ```sh
-make # lint sources and run tests 
+make # lint & test
 ```
 
 ## License
