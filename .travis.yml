@@ -1,14 +1,6 @@
-language: bash
-
-sudo: required
-dist: trusty
-
-before_install:
-  - sudo apt-get -qq update && sudo apt-get install -y cabal-install
-  - export PATH=$HOME/.cabal/bin:$PATH
-
+# https://docs.travis-ci.com/user/languages/minimal-and-generic/
+language: generic
 install:
-  - cabal update && cabal install shellcheck
-  - sudo sh -c "`curl -L https://raw.github.com/rylnd/shpec/master/install.sh`"
-
+  - curl -sSL https://raw.github.com/rylnd/shpec/0.3.1/install.sh | bash
+  - curl -sSL https://storage.googleapis.com/shellcheck/shellcheck-v0.6.0.linux-x86_64 -o /usr/local/bin/shellcheck && chmod a+x /usr/local/bin/shellcheck
 script: make
