@@ -2,5 +2,5 @@
 language: generic
 install:
   - curl -sSL https://raw.github.com/rylnd/shpec/0.3.1/install.sh | bash
-  - curl -sSL https://storage.googleapis.com/shellcheck/shellcheck-v0.6.0.linux-x86_64 -o /usr/local/bin/shellcheck && chmod a+x /usr/local/bin/shellcheck
+  - curl -sSL https://storage.googleapis.com/shellcheck/shellcheck-v0.6.0.linux-x86_64 -o shellcheck && chmod a+x shellcheck && sudo mv shellcheck /usr/local/bin/
 script: make
