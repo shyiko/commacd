@@ -1,6 +1,6 @@
 # https://docs.travis-ci.com/user/languages/minimal-and-generic/
 language: generic
 install:
-  - curl -sSL https://raw.github.com/rylnd/shpec/0.3.1/install.sh | bash
+  - curl -sSL https://raw.github.com/rylnd/shpec/0.3.1/bin/shpec -o shpec.sh && chmod a+x shpec.sh && sudo mv shpec.sh /usr/local/bin/shpec
   - curl -sSL https://storage.googleapis.com/shellcheck/shellcheck-v0.6.0.linux-x86_64 -o shellcheck && chmod a+x shellcheck && sudo mv shellcheck /usr/local/bin/
 script: make
