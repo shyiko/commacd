@@ -180,7 +180,7 @@ _commacd_backward_vcs_root() {
   while ! _commacd_marked "$dir"; do
     dir="${dir%/*}"
     if [[ -z "$dir" ]]; then
-      echo -n "$PWD"
+      echo -n "$PWD/.."
       return
     fi
   done
